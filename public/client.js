@@ -1,32 +1,42 @@
 const socket = io();
 
 const name = localStorage.getItem("playerName");
-let room = "arena1";
+let room = localStorage.getItem("roomCode") || "arena1";
 
 socket.emit("joinRoom", { name, room });
+
+const status = document.getElementById("status");
+const button = document.getElementById("drawBtn");
 
 function clickNow() {
   socket.emit("click", room);
 }
 
 socket.on("prepare", () => {
-  document.getElementById("status").innerText = "Get Ready...";
+  button.disabled = true;
+  status.innerText = "Get Ready...";
+  document.body.classList.remove("drawMode");
 });
 
 socket.on("draw", () => {
-  document.getElementById("status").innerText = "DRAW!";
+  button.disabled = false;
+  status.innerText = "DRAW!";
+  document.body.classList.add("drawMode");
 });
 
 socket.on("roundWinner", (winner) => {
-  document.getElementById("status").innerText = winner.name + " wins the round!";
+  status.innerText = winner.name + " wins the round!";
+  document.body.classList.remove("drawMode");
+  button.disabled = true;
 });
 
 socket.on("gameWinner", (winner) => {
-  document.getElementById("status").innerText = winner.name + " WINS THE GAME!";
+  status.innerText = "🏆 " + winner.name + " WINS THE GAME!";
+  button.disabled = true;
 });
 
 socket.on("disqualified", () => {
-  document.getElementById("status").innerText = "Too Early! Disqualified!";
+  status.innerText = "Too Early! Disqualified!";
 });
 
 socket.on("updatePlayers", (players) => {

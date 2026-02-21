@@ -1,37 +1,62 @@
 body {
-  text-align: center;
+  margin: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #1e1e2f, #0f3460);
   color: white;
-  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  transition: background 0.3s;
+}
+
+.card {
+  background: #16213e;
   padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
 }
 
-h1 {
-  font-size: 40px;
-}
-
-#status {
-  font-size: 28px;
-  margin: 30px;
+input {
+  display: block;
+  margin: 15px auto;
+  padding: 10px;
+  width: 80%;
+  border-radius: 8px;
+  border: none;
 }
 
 button {
-  padding: 20px 50px;
-  font-size: 24px;
-  border: none;
+  padding: 15px 40px;
+  font-size: 18px;
   border-radius: 10px;
-  cursor: pointer;
+  border: none;
   background: #e94560;
   color: white;
+  cursor: pointer;
   transition: 0.2s;
 }
 
 button:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+}
+
+button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.drawMode {
+  background: linear-gradient(135deg, #e94560, #ff2e63);
+}
+
+#status {
+  font-size: 28px;
+  margin: 20px;
 }
 
 #players {
-  margin-top: 40px;
-  font-size: 20px;
+  margin-top: 20px;
 }

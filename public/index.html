@@ -5,16 +5,32 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>QuickDraw Arena</h1>
-  <input id="name" placeholder="Enter Name" />
-  <button onclick="joinGame()">Join Game</button>
 
-  <script>
-    function joinGame() {
-      const name = document.getElementById("name").value;
-      localStorage.setItem("playerName", name);
-      window.location.href = "/game.html";
+<div class="card">
+  <h1>⚡ QuickDraw Arena</h1>
+
+  <input id="name" placeholder="Enter Your Name" />
+  <input id="room" placeholder="Room Code (e.g. 1234)" />
+
+  <button onclick="joinGame()">Enter Arena</button>
+</div>
+
+<script>
+  function joinGame() {
+    const name = document.getElementById("name").value;
+    const room = document.getElementById("room").value || "arena1";
+
+    if (!name) {
+      alert("Enter your name");
+      return;
     }
-  </script>
+
+    localStorage.setItem("playerName", name);
+    localStorage.setItem("roomCode", room);
+
+    window.location.href = "/game.html";
+  }
+</script>
+
 </body>
 </html>
