@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Game</title>
+  <title>QuickDraw Arena</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2 id="status">Waiting...</h2>
-  <button id="drawBtn" onclick="clickNow()">CLICK!</button>
-  <div id="players"></div>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="client.js"></script>
+<h1>QuickDraw Arena</h1>
+
+<div id="status">Waiting for players...</div>
+
+<button id="drawBtn" onclick="clickNow()">CLICK!</button>
+
+<div id="players"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
+
 </body>
 </html>

@@ -5,54 +5,94 @@ const io = require("socket.io")(http);
 
 app.use(express.static("public"));
 
-let players = {};
-let gameStarted = false;
-let canClick = false;
+const PORT = process.env.PORT || 3000;
+
+let rooms = {};
 
 io.on("connection", (socket) => {
-  console.log("Player connected");
 
-  socket.on("join", (name) => {
-    players[socket.id] = { name: name, score: 0 };
-    io.emit("updatePlayers", players);
+  socket.on("joinRoom", ({ name, room }) => {
+
+    socket.join(room);
+
+    if (!rooms[room]) {
+      rooms[room] = {
+        players: {},
+        canClick: false,
+        roundActive: false
+      };
+    }
+
+    rooms[room].players[socket.id] = {
+      name: name,
+      score: 0
+    };
+
+    io.to(room).emit("updatePlayers", rooms[room].players);
+
+    if (Object.keys(rooms[room].players).length >= 2) {
+      startRound(room);
+    }
   });
 
-  socket.on("click", () => {
-    if (!canClick) {
+  socket.on("click", (room) => {
+    const game = rooms[room];
+    if (!game || !game.roundActive) return;
+
+    if (!game.canClick) {
       socket.emit("disqualified");
       return;
     }
 
-    if (canClick) {
-      players[socket.id].score++;
-      canClick = false;
-      io.emit("roundWinner", players[socket.id]);
-      io.emit("updatePlayers", players);
-      setTimeout(startRound, 3000);
+    game.canClick = false;
+    game.roundActive = false;
+
+    game.players[socket.id].score++;
+
+    const winner = game.players[socket.id];
+
+    io.to(room).emit("roundWinner", winner);
+    io.to(room).emit("updatePlayers", game.players);
+
+    if (winner.score >= 5) {
+      io.to(room).emit("gameWinner", winner);
+      resetRoom(room);
+    } else {
+      setTimeout(() => startRound(room), 3000);
     }
   });
 
   socket.on("disconnect", () => {
-    delete players[socket.id];
-    io.emit("updatePlayers", players);
+    for (let room in rooms) {
+      if (rooms[room].players[socket.id]) {
+        delete rooms[room].players[socket.id];
+        io.to(room).emit("updatePlayers", rooms[room].players);
+      }
+    }
   });
 });
 
-function startRound() {
-  canClick = false;
-  io.emit("prepare");
+function startRound(room) {
+  const game = rooms[room];
+  if (!game) return;
+
+  game.canClick = false;
+  game.roundActive = true;
+
+  io.to(room).emit("prepare");
 
   setTimeout(() => {
-    canClick = true;
-    io.emit("draw");
-  }, Math.random() * 4000 + 1000);
+    game.canClick = true;
+    io.to(room).emit("draw");
+  }, Math.random() * 3000 + 2000);
 }
 
-setInterval(() => {
-  if (!canClick) startRound();
-}, 10000);
-
-const PORT = process.env.PORT || 3000;
+function resetRoom(room) {
+  const players = rooms[room].players;
+  for (let id in players) {
+    players[id].score = 0;
+  }
+}
 
 http.listen(PORT, () => {
   console.log("Server running on port " + PORT);

@@ -1,18 +1,37 @@
 body {
   text-align: center;
-  font-family: Arial;
-  background: #111;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #0f3460);
   color: white;
+  margin: 0;
+  padding: 40px;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+#status {
+  font-size: 28px;
+  margin: 30px;
 }
 
 button {
-  padding: 20px;
-  font-size: 20px;
-  margin: 20px;
+  padding: 20px 50px;
+  font-size: 24px;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
+  background: #e94560;
+  color: white;
+  transition: 0.2s;
 }
 
-#drawBtn {
-  background: red;
-  color: white;
+button:hover {
+  transform: scale(1.1);
+}
+
+#players {
+  margin-top: 40px;
+  font-size: 20px;
 }
