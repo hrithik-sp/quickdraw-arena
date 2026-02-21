@@ -3,60 +3,64 @@ body {
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #1e1e2f, #0f3460);
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   transition: background 0.3s;
 }
 
-.card {
-  background: #16213e;
-  padding: 40px;
-  border-radius: 15px;
+.game-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding: 0 10%;
+}
+
+.game-area {
+  width: 60%;
   text-align: center;
-  width: 350px;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  position: relative;
 }
 
-input {
-  display: block;
-  margin: 15px auto;
-  padding: 10px;
-  width: 80%;
-  border-radius: 8px;
-  border: none;
-}
-
-button {
-  padding: 15px 40px;
-  font-size: 18px;
-  border-radius: 10px;
-  border: none;
-  background: #e94560;
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-button:disabled {
-  background: gray;
-  cursor: not-allowed;
-}
-
-.drawMode {
-  background: linear-gradient(135deg, #e94560, #ff2e63);
+.scoreboard {
+  width: 30%;
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 15px;
 }
 
 #status {
   font-size: 28px;
-  margin: 20px;
+  margin: 30px 0;
 }
 
-#players {
-  margin-top: 20px;
+#drawBtn {
+  position: absolute;
+  padding: 20px 50px;
+  font-size: 22px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: #00ffcc;
+  color: black;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+#drawBtn:hover {
+  transform: scale(1.1);
+}
+
+#drawBtn:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+/* When DRAW mode active */
+.drawMode {
+  background: #e94560;
+}
+
+.drawMode #drawBtn {
+  background: yellow;
+  color: black;
+  box-shadow: 0 0 20px yellow;
 }

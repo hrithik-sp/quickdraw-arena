@@ -22,6 +22,7 @@ socket.on("draw", () => {
   button.disabled = false;
   status.innerText = "DRAW!";
   document.body.classList.add("drawMode");
+  randomizeButton();
 });
 
 socket.on("roundWinner", (winner) => {
@@ -46,3 +47,16 @@ socket.on("updatePlayers", (players) => {
   }
   document.getElementById("players").innerHTML = html;
 });
+function randomizeButton() {
+  const btn = document.getElementById("drawBtn");
+  const area = document.querySelector(".game-area");
+
+  const maxX = area.clientWidth - btn.offsetWidth;
+  const maxY = area.clientHeight - btn.offsetHeight;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+}

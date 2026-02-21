@@ -6,13 +6,20 @@
 </head>
 <body>
 
-<h1>QuickDraw Arena</h1>
+<div class="game-container">
 
-<div id="status">Waiting for players...</div>
+  <div class="game-area">
+    <h1>⚡ QuickDraw Arena</h1>
+    <div id="status">Waiting for players...</div>
+    <button id="drawBtn" onclick="clickNow()">CLICK!</button>
+  </div>
 
-<button id="drawBtn" onclick="clickNow()">CLICK!</button>
+  <div class="scoreboard">
+    <h2>Scoreboard</h2>
+    <div id="players"></div>
+  </div>
 
-<div id="players"></div>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="client.js"></script>
